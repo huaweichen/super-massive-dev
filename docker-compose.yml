@@ -49,6 +49,18 @@ services:
       - ./mysql-data:/var/lib/mysql
       - /usr/bin
 
+# Phpmyadmin container.
+  drupal-phpmyadmin:
+    container_name: drupal-phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8080:80
+    links:
+      - drupal-mysql
+    environment:
+      - PMA_HOST=${PMA_HOST}
+      - PMA_PORT=${PMA_PORT}
+
 # Mailhog Container
   drupal-mailhog:
     image: mailhog/mailhog
