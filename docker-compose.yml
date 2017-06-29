@@ -30,7 +30,7 @@ services:
      - XDEBUG_CONFIG=${XDEBUG_CONFIG}
      - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
     volumes:
-      - .:/var/www
+      - .:/var/www:rw,delegated
     volumes_from:
       - drupal-mysql
 
