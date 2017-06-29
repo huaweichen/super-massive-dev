@@ -1,4 +1,4 @@
-# Services required for Drupal Development - Nginx, PHP-FPM, MySQL, Mailhog
+# Services required for Drupal Development - Nginx, PHP-FPM, MySQL, Mailhog, Portainer
 
 version: '2'
 
@@ -9,7 +9,7 @@ services:
     container_name: drupal-nginx
     image: nginx:latest
     ports:
-      - 80
+      - 80:80
     links:
       - drupal-php
     volumes:
@@ -21,8 +21,8 @@ services:
     container_name: drupal-php
     image: supermassive/drupal-docker-php-fpm
     ports:
-      - 9001
-      - 9000
+      - 9001:9001
+      - 9000:9000
     links:
       - drupal-mysql
       - drupal-mailhog
@@ -39,7 +39,7 @@ services:
     container_name: drupal-mysql
     image: mysql:5.7
     ports:
-      - 3306
+      - 3306:3306
     environment:
      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
      - MYSQL_DATABASE=${MYSQL_DATABASE}
@@ -55,5 +55,15 @@ services:
     container_name: drupal-mailhog
     working_dir: /home/mailhog
     ports:
-      - 1025
-      - 8025
+      - 1025:1025
+      - 8025:8025
+
+# Portainer Container
+  drupal-portainer:
+    container_name: drupal-portainer
+    image: portainer/portainer
+    ports:
+      - 9002:9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./portainer-data:/data

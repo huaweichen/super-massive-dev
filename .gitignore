@@ -1,3 +1,9 @@
 # Composer generated stuff
 vendor
 web
+
+# Portainer data
+portainer-data
+
+# MySQL data
+mysql-data
