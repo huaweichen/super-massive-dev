@@ -1,0 +1,59 @@
+# Services required for Drupal Development - Nginx, PHP-FPM, MySQL, Mailhog
+
+version: '2'
+
+services:
+
+# Nginx container.
+  drupal-nginx:
+    container_name: drupal-nginx
+    image: nginx:latest
+    ports:
+      - 80
+    links:
+      - drupal-php
+    volumes:
+      - .:/var/www
+      - ./conf/nginx/default.vhost.conf:/etc/nginx/conf.d/default.conf
+
+# PHP-FPM container.
+  drupal-php:
+    container_name: drupal-php
+    image: supermassive/drupal-docker-php-fpm
+    ports:
+      - 9001
+      - 9000
+    links:
+      - drupal-mysql
+      - drupal-mailhog
+    environment:
+     - XDEBUG_CONFIG=${XDEBUG_CONFIG}
+     - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+    volumes:
+      - .:/var/www
+    volumes_from:
+      - drupal-mysql
+
+# MySQL container.
+  drupal-mysql:
+    container_name: drupal-mysql
+    image: mysql:5.7
+    ports:
+      - 3306
+    environment:
+     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+     - MYSQL_DATABASE=${MYSQL_DATABASE}
+     - MYSQL_USER=${MYSQL_USER}
+     - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+      - /usr/bin
+
+# Mailhog Container
+  drupal-mailhog:
+    image: mailhog/mailhog
+    container_name: drupal-mailhog
+    working_dir: /home/mailhog
+    ports:
+      - 1025
+      - 8025
