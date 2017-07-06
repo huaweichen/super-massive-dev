@@ -1,6 +1,7 @@
 # Composer generated stuff
 vendor
 web
+bin
 
 # Portainer data
 portainer-data

@@ -41,6 +41,9 @@
   },
   "require-dev": {
   },
+  "config": {
+    "bin-dir": "bin/"
+  },
   "conflict": {
   },
   "minimum-stability": "dev",
